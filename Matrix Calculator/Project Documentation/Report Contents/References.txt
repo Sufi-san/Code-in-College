@@ -1,0 +1,5 @@
+References:
+Visual Studio - https://code.visualstudio.com/Docs/editor/whyvscode
+C Programming Language - https://www.tutorialspoint.com/cprogramming/c_overview.htm
+GitHub - https://digital.gov/resources/an-introduction-github/
+Feasibility Study - https://123seminarsonly.com/
