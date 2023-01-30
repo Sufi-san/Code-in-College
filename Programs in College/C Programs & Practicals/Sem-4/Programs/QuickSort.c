@@ -12,7 +12,7 @@ int main(){
 		scanf("%d",&x[i]);
 	}
 	quicksort(x,0,size-1);
-	printf("Sorted elements: ");
+	printf("Sorted elements: (Using Quick Sort)\n ");
 	for(int i = 0; i < size; i++){
 		printf("%d ",x[i]);
 	}
