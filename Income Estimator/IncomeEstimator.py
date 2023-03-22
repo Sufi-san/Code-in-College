@@ -2,122 +2,13 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
+import tkinter.font as tkfont
 from PIL import ImageTk, Image
-
-f1 = ("Times New Roman", 20, "bold")
-f = ("Calibre", 10)
-global second_window_counter
-second_window_counter = 0
+import webbrowser
 
 
 def open_chatbot():
-    with open("Chatbot.py") as cb:
-        exec(cb.read())
-
-
-def open_create():
-    global second_window_counter
-
-    def close_action():
-        global second_window_counter
-        second_window_counter -= 1
-        cr_win.destroy()
-
-    if second_window_counter < 1:
-        second_window_counter += 1
-        cr_win = Toplevel()
-        cr_win.title("Create A Record.")
-        cr_win.resizable(False, False)
-        cr_win.geometry("600x500+700+100")
-        cr_win.protocol("WM_DELETE_WINDOW", close_action)
-        v1 = IntVar()
-
-        class InsideFrames:
-
-            def __init__(self, win_frame, new_height, sr_num):
-                ins_frame = Frame(win_frame, bg="#b4b4b4")
-                ins_frame.place(x=0, y=new_height, width=475, height=20)
-
-                self.fr_lbl1 = Label(ins_frame, text=sr_num, font=f, justify="center")
-                self.fr_lbl1.place(x=0, y=0, width=60, height=15)
-                self.fr_lbl2 = Label(ins_frame, text=f"Employee ID: ", font=f, justify="center")
-                self.fr_lbl2.place(x=63, y=0, width=150, height=15)
-                self.fr_btn1 = Button(ins_frame, text="Details", font=f, justify="center")
-                self.fr_btn1.place(x=218, y=0, width=60, height=15)
-                self.fr_btn2 = Button(ins_frame, text="X", bg="red", fg="white", justify="center", command=ins_frame.destroy)
-                self.fr_btn2.place(x=286, y=0, width=20, height=15)
-                self.fr_lbl3 = Label(ins_frame, text="-", font=f, justify="center")
-                self.fr_lbl3.place(x=316, y=0, width=160, height=15)
-
-        def enable_prod():
-            if v1.get() == 1:
-                lbl_2.configure(state=NORMAL)
-                entry_2.configure(state=NORMAL)
-                btn_1.configure(state=NORMAL)
-                btn_2.configure(state=NORMAL)
-            elif v1.get() == 0:
-                lbl_2.configure(state=DISABLED)
-                entry_2.delete(0, END)
-                entry_2.configure(state=DISABLED)
-                btn_1.configure(state=DISABLED)
-                btn_2.configure(state=DISABLED)
-
-        def create_frames():
-            ins_frame_height = 20
-            num = int(entry_3.get())
-            for i in range(0, num):
-                ins_frame = InsideFrames(frame_1, ins_frame_height, i+1)
-                ins_frame_height += 20
-
-        frame_1 = Frame(cr_win,bg="#b4b4b4", padx=5, pady=5)
-        frame_1.place(x=40, y=220, width=510, height=187)
-
-        scrollbar_1 = Scrollbar(frame_1, orient=VERTICAL)
-        scrollbar_1.pack(side="right", fill=Y)
-
-        fr_lbl1 = Label(frame_1, text="Sr.No.", font=f, justify="center")
-        fr_lbl1.place(x=0, y=0, width=60, height=15)
-        fr_lbl2 = Label(frame_1, text="Employee Details", font=f, justify="center")
-        fr_lbl2.place(x=63, y=0, width=250, height=15)
-        fr_lbl3 = Label(frame_1, text="Income/Salary", font=f, justify="center")
-        fr_lbl3.place(x=316, y=0, width=160, height=15)
-
-        lbl_1 = Label(cr_win, text="Enter Total Collection:", font=f, justify="center", )
-        lbl_1.place(x=30, y=20, width=146, height=30)
-        lbl_2 = Label(cr_win, text="Enter Total Profit from Products:", font=f, justify="center", state=DISABLED)
-        lbl_2.place(x=20, y=90, width=219, height=30)
-        lbl_3 = Label(cr_win, text="Enter Number of Employees to Add/Remove:", font=f, justify="center")
-        lbl_3.place(x=40, y=180, width=258, height=30)
-        lbl_4 = Label(cr_win, text="Amount Left after Distribution:", font=f, justify="center")
-        lbl_4.place(x=310, y=420, width=224, height=30)
-        lbl_5 = Label(cr_win, text="-", font=f, justify="center")
-        lbl_5.place(x=310, y=450, width=210, height=30)
-
-        entry_1 = Entry(cr_win, font=f, justify="center")
-        entry_1.place(x=180, y=20, width=155, height=30)
-        entry_2 = Entry(cr_win, font=f, justify="center", state=DISABLED)
-        entry_2.place(x=240, y=90, width=176, height=30)
-        entry_3 = Entry(cr_win, font=f, justify="center")
-        entry_3.place(x=300, y=180, width=52, height=30)
-
-        chk_box1 = Checkbutton(cr_win, text="Include Products", font=f, variable=v1, command=enable_prod, onvalue=1,
-                               offvalue=0)
-        chk_box1.place(x=30, y=60, width=125, height=32)
-
-        btn_1 = Button(cr_win, text="Add New Product", state=DISABLED)
-        btn_1.place(x=40, y=140, width=238, height=30)
-        btn_2 = Button(cr_win, text="View List of Products", state=DISABLED)
-        btn_2.place(x=300, y=140, width=244, height=30)
-        btn_3 = Button(cr_win, text="Add", command=create_frames)
-        btn_3.place(x=360, y=180, width=76, height=30)
-        btn_4 = Button(cr_win, text="Remove")
-        btn_4.place(x=440, y=180, width=76, height=30)
-        btn_5 = Button(cr_win, text="Estimate Incomes")
-        btn_5.place(x=40, y=420, width=226, height=30)
-        btn_6 = Button(cr_win, text="Save Record")
-        btn_6.place(x=40, y=460, width=226, height=30)
-    else:
-        messagebox.showinfo("Limit reached!", "Can Open Only One Window")
+    webbrowser.open_new_tab("Chatbot.html")
 
 
 def browse_folder():
@@ -125,22 +16,209 @@ def browse_folder():
                                                                                          ("all files", "*.*")))
 
 
-main_win = Tk()
-main_win.title("Income Estimator")
-main_win.geometry("600x500+100+100")
-main_win.resizable(False, False)
+def open_create():
+    def estimate_inc():
+        pass
+
+    def save_rec():
+        pass
+
+    def close_action():
+        global window_counter1
+        window_counter1 -= 1
+        child.destroy()
+
+    def when_focused1(event):
+        check = entry_4.get()
+        if check == placeholder_ent4:
+            event.widget.delete(0, END)
+            entry_4.configure(fg="black")
+
+    def when_unfocused1(event):
+        check = entry_4.get()
+        if check == "":
+            entry_4.configure(fg="#b4b4b4")
+            entry_4.insert(0, placeholder_ent4)
+
+    def when_focused2(event):
+        check = entry_5.get()
+        if check == placeholder_ent5:
+            event.widget.delete(0, END)
+            entry_5.configure(fg="black")
+
+    def when_unfocused2(event):
+        check = entry_5.get()
+        if check == "":
+            entry_5.configure(fg="#b4b4b4")
+            entry_5.insert(0, placeholder_ent5)
+
+    def on_combo_configure(event):
+        global products
+        font = tkfont.nametofont(str(event.widget.cget('font')))
+        max_num = 0
+        for product in products:
+            if len(product) > max_num:
+                max_num = products.index(product)
+        width = font.measure(products[max_num] + "0") - event.width
+        if width > cmb_box.winfo_width():
+            style = ttk.Style()
+            style.configure('TCombobox', postoffset=(0, 0, width, 0))
+
+    global window_counter1
+    if window_counter1 < 1:
+        window_counter1 += 1
+        child = Toplevel()
+        child.title("Create A Record")
+        child.resizable(False, False)
+        child.geometry(f"{child.winfo_screenwidth()}x{child.winfo_screenheight()}+-7+0")
+        child.protocol("WM_DELETE_WINDOW", close_action)
+        child.iconbitmap("app_icon.ico")
+
+        frame1 = LabelFrame(child, bg="#b4b4b4", text="Employee Details")
+        frame1.place(x=40, y=110, width=653, height=280)
+        frame2 = LabelFrame(child, bg="#b4b4b4", text="Product Details")
+        frame2.place(x=740, y=40, width=606, height=320)
+        tree_frame1 = Frame(child, bg="#b4b4b4")
+        tree_frame1.place(x=40, y=388, width=927, height=345)
+        tree_frame2 = Frame(child)
+        tree_frame2.place(x=340, y=120, width=180, height=209)
+        tree_frame3 = Frame(child)
+        tree_frame3.place(x=1000, y=50, width=330, height=298)
+
+        btn_1 = Button(child, text="Save Record", font=("Calibre", 15, "bold"))
+        btn_1.place(x=1170, y=670, width=126, height=65)
+        btn_2 = Button(child, text="Estimate Incomes", font=("Times New Roman", 22, "bold"))
+        btn_2.place(x=990, y=390, width=234, height=52)
+        btn_3 = Button(child, text="Add to Record")
+        btn_3.place(x=50, y=350, width=129, height=30)
+        btn_4 = Button(child, text="Update Selected")
+        btn_4.place(x=190, y=350, width=129, height=30)
+        btn_5 = Button(child, text="Remove Selected")
+        btn_5.place(x=330, y=350, width=129, height=30)
+        btn_6 = Button(child, text="Remove All")
+        btn_6.place(x=470, y=350, width=129, height=30)
+        btn_7 = Button(child, text="Add")
+        btn_7.place(x=540, y=220, width=120, height=20)
+        btn_8 = Button(child, text="Update Selected")
+        btn_8.place(x=540, y=250, width=120, height=20)
+        btn_9 = Button(child, text="Remove Selected")
+        btn_9.place(x=540, y=280, width=120, height=20)
+        btn_10 = Button(child, text="Remove All")
+        btn_10.place(x=540, y=310, width=120, height=20)
+        btn_11 = Button(child, text="Add Product")
+        btn_11.place(x=760, y=200, width=211, height=30)
+        btn_12 = Button(child, text="Update Selected Products")
+        btn_12.place(x=760, y=240, width=211, height=30)
+        btn_13 = Button(child, text="Remove Selected Products")
+        btn_13.place(x=760, y=280, width=211, height=30)
+        btn_14 = Button(child, text="Remove All")
+        btn_14.place(x=760, y=320, width=211, height=30)
+
+        chk_btn1 = Checkbutton(child, text="Include Products")
+        chk_btn1.place(x=420, y=0, width=208, height=38)
+
+        rad_btn1 = Radiobutton(child, text="Fixed Amount:", bg="#b4b4b4")
+        rad_btn1.place(x=50, y=240, width=119, height=30)
+        rad_btn2 = Radiobutton(child, text="Percentage Based:", bg="#b4b4b4")
+        rad_btn2.place(x=55, y=270, width=124, height=37)
+
+        lbl_1 = Label(child, text="Enter total collection:", font=f)
+        lbl_1.place(x=30, y=0, width=146, height=30)
+        lbl_2 = Label(child, text="Total Profit from Product Sale:", font=f)
+        lbl_2.place(x=20, y=40, width=214, height=30)
+        lbl_3 = Label(child, text="-", font=f)
+        lbl_3.place(x=210, y=40, width=102, height=30)
+        lbl_4 = Label(child, text="Collection excluding Product Sale:", font=f)
+        lbl_4.place(x=30, y=70, width=216, height=30)
+        lbl_5 = Label(child, text="-", font=f)
+        lbl_5.place(x=240, y=70, width=111, height=31)
+        lbl_6 = Label(child, text="ID:", font=f, bg="#b4b4b4")
+        lbl_6.place(x=41, y=130, width=61, height=37)
+        lbl_7 = Label(child, text="Name:", font=f, bg="#b4b4b4")
+        lbl_7.place(x=41, y=170, width=82, height=32)
+        lbl_8 = Label(child, text="Salary:", font=f, bg="#b4b4b4")
+        lbl_8.place(x=42, y=210, width=82, height=39)
+        lbl_9 = Label(child, text="Product:", font=f, bg="#b4b4b4")
+        lbl_9.place(x=520, y=130, width=70, height=25)
+        lbl_10 = Label(child, text="Quantity:", font=f, bg="#b4b4b4")
+        lbl_10.place(x=520, y=170, width=70, height=25)
+        lbl_11 = Label(child, text="Product Name:", font=f, bg="#b4b4b4")
+        lbl_11.place(x=740, y=60, width=108, height=37)
+        lbl_12 = Label(child, text="Employee Margin:", font=f, bg="#b4b4b4")
+        lbl_12.place(x=740, y=90, width=126, height=38)
+        lbl_13 = Label(child, text="Cost Price:", font=f, bg="#b4b4b4")
+        lbl_13.place(x=740, y=120, width=83, height=36)
+        lbl_14 = Label(child, text="Selling Price:", font=f, bg="#b4b4b4")
+        lbl_14.place(x=740, y=150, width=96, height=39)
+        lbl_15 = Label(child, text="Amount left after Distribution:", font=("Roboto", 13, "bold"))
+        lbl_15.place(x=990, y=480, width=262, height=30)
+        lbl_16 = Label(child, text="-", font=("Times New Roman", 12, "bold"))
+        lbl_16.place(x=990, y=510, width=239, height=38)
+        lbl_17 = Label(child, bg="black")
+        lbl_17.place(x=40, y=340, width=652, height=1)
+        lbl_17 = Label(child, bg="white")
+        lbl_17.place(x=40, y=341, width=652, height=1)
+
+        entry_1 = Entry(child, justify=CENTER)
+        entry_1.place(x=170, y=1, width=155, height=30)
+        entry_2 = Entry(child, justify=CENTER)
+        entry_2.place(x=120, y=140, width=70, height=20)
+        entry_3 = Entry(child, justify=CENTER)
+        entry_3.place(x=120, y=180, width=70, height=20)
+        entry_4 = Entry(child, fg="#b4b4b4", justify=CENTER)
+        placeholder_ent4 = "Enter Amount"
+        entry_4.insert(0, placeholder_ent4)
+        entry_4.bind("<FocusIn>", when_focused1)
+        entry_4.bind("<FocusOut>", when_unfocused1)
+        entry_4.place(x=190, y=240, width=130, height=30)
+        entry_5 = Entry(child, fg="#b4b4b4", justify=CENTER)
+        placeholder_ent5 = "Enter % Collection"
+        entry_5.insert(0, placeholder_ent5)
+        entry_5.bind("<FocusIn>", when_focused2)
+        entry_5.bind("<FocusOut>", when_unfocused2)
+        entry_5.place(x=190, y=280, width=130, height=30)
+        entry_6 = Entry(child, justify=CENTER)
+        entry_6.place(x=590, y=170, width=79, height=30)
+        entry_7 = Entry(child, justify=CENTER)
+        entry_7.place(x=860, y=67, width=125, height=20)
+        entry_8 = Entry(child, justify=CENTER)
+        entry_8.place(x=860, y=100, width=125, height=20)
+        entry_9 = Entry(child, justify=CENTER)
+        entry_9.place(x=860, y=130, width=125, height=20)
+        entry_10 = Entry(child, justify=CENTER)
+        entry_10.place(x=860, y=160, width=125, height=20)
+
+        global products
+        products = ["Product1", "Product2", "Product3"]
+        cmb_box = ttk.Combobox(child, values=products, state="readonly")
+        cmb_box.place(x=590, y=130, width=80, height=25)
+        cmb_box.bind("<Configure>", on_combo_configure)
+    else:
+        messagebox.showinfo("Limit reached!", "Can Open Only One Window")
+
+
+f1 = ("Times New Roman", 20, "bold")
+f = ("Calibre", 10)
+global window_counter1
+window_counter1 = 0
+root = Tk()
+root.title("Income Estimator")
+root.geometry("540x440+0+0")
+root.resizable(False, False)
+root.iconbitmap("app_icon.ico")
 img = ImageTk.PhotoImage(Image.open("MainWindowImage.jpg"))
 chat_img = ImageTk.PhotoImage(Image.open("chat_image.png"))
 img_lbl = Label(image=img)
 img_lbl.pack()
-title_lbl = Label(main_win, text="Income Estimator", bg="tomato", font=f1, justify="center")
-title_lbl.place(x=50, y=20, width=495, height=105)
-crt_new = Button(main_win, text="Create New Record", font=f1, justify="center", command=open_create)
-crt_new.place(x=130, y=230, width=325, height=30)
-src_old = Button(main_win, text="View Existing Record", font=f1, justify="center", command=browse_folder)
-src_old.place(x=130, y=280, width=326, height=30)
-chat_bot = Button(main_win, image=chat_img, font=f, command=open_chatbot)
-chat_bot.place(x=490, y=410, width=79, height=61)
+title_lbl = Label(root, text="Income Estimator", bg="tomato", font=f1, justify="center")
+title_lbl.place(x=36, y=20, width=465, height=85)
+crt_new = Button(root, text="Create New Record", font=f1, justify="center", command=open_create)
+crt_new.place(x=116, y=230, width=305, height=30)
+src_old = Button(root, text="View Existing Record", font=f1, justify="center", command=browse_folder)
+src_old.place(x=116, y=280, width=306, height=30)
+chat_bot = Button(root, image=chat_img, font=f, command=open_chatbot)
+chat_bot.place(x=460, y=380, width=69, height=51)
+global products
 
 
-main_win.mainloop()
+root.mainloop()
